@@ -32,7 +32,7 @@ jobs:
       with:
         name: atrust_SWPU-macos
         # 指定构建产物路径，根据实际情况调整
-        path: ${{github.workspace}}/build/${{env.BUILD_TYPE}}/atrust_SWPU
+        path: /Users/runner/work/FreeAtrust/FreeAtrust/build/atrust_SWPU
         # 可选：设置保留时间（天）
         retention-days: 30
     
