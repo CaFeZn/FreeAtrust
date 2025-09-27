@@ -25,7 +25,7 @@ jobs:
       # 显示构建产物信息，便于确认路径
       run: |
         echo "查找构建产物..."
-        find ${{github.workspace}}/build -name "atrust_SWPU" -type f -executable -print
+        find ${{github.workspace}}/build -name "atrust_SWPU" -type f -print
 
     - name: Archive Build Artifact
       uses: actions/upload-artifact@v4
