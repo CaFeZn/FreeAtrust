@@ -16,7 +16,8 @@ int is_url_have_protocol(const string& str);
 
 int main() {
     cout << "先通过非校园网访问登录一网通办" << endl;
-    cout << "https://www.swpu.edu.cn/nic/xxhyy/ywtb.htm" << endl;
+    cout << "https://www.swpu.edu.cn/nic/xxhyy/ywtb.htm" << endl << endl;
+    while (true){
     cout << "请输入待访问校内网址：";
     // 读取待转换目标网页
     string aim_websitehande;   // 待转换目标网页
@@ -34,8 +35,10 @@ int main() {
 
     // 输出转换后的目标网址
     cout << "转换后的目标网址：";
-    cout << target_domain << atrust_suffix << source_path << endl;
-
+    cout << target_domain << atrust_suffix << source_path << endl << endl;
+    }
+    cout << "按任意键退出" << endl;
+    getchar();
 
     return 0;
 
