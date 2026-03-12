@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>西南石油大学 VPN 地址转换工具</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .subtitle {
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .subtitle a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .subtitle a:hover {
+            text-decoration: underline;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #333;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .result.show {
+            display: block;
+        }
+
+        .result-label {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .result-url {
+            color: #333;
+            font-size: 16px;
+            word-break: break-all;
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .result-url a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .result-url a:hover {
+            text-decoration: underline;
+        }
+
+        .copy-btn {
+            width: auto;
+            padding: 8px 20px;
+            background: #667eea;
+            font-size: 14px;
+            margin-top: 0;
+        }
+
+        .copy-btn:hover {
+            background: #5568d3;
+        }
+
+        .history {
+            margin-top: 30px;
+        }
+
+        .history-title {
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .history-list {
+            list-style: none;
+        }
+
+        .history-item {
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 14px;
+            color: #666;
+            word-break: break-all;
+        }
+
+        .history-item:hover {
+            background: #e9ecef;
+        }
+
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 西南石油大学 VPN 地址转换</h1>
+        <p class="subtitle">
+            通过校园网免登录访问一般通道<br>
+            <a href="https://www.swpu.edu.cn/nic/xxhyy/ywtb.htm" target="_blank">查看业务通报</a>
+        </p>
+
+        <div class="input-group">
+            <label for="urlInput">请输入目标网址：</label>
+            <input
+                type="text"
+                id="urlInput"
+                placeholder="例如：www.example.com 或 https://www.example.com/path"
+                autocomplete="off"
+            >
+        </div>
+
+        <button onclick="convertUrl()">转换地址</button>
+
+        <div class="result" id="result">
+            <div class="result-label">转换后的目标地址：</div>
+            <div class="result-url" id="resultUrl"></div>
+            <button class="copy-btn" onclick="copyToClipboard()">📋 复制地址</button>
+        </div>
+
+        <div class="history" id="historySection" style="display: none;">
+            <div class="history-title">转换历史</div>
+            <ul class="history-list" id="historyList"></ul>
+        </div>
+
+        <div class="footer">
+            Made with ❤️ for SWPU Students
+        </div>
+    </div>
+
+    <script>
+        const ATRUST_SUFFIX = '-s.vpn.swpu.edu.cn:8118';
+        let history = JSON.parse(localStorage.getItem('urlHistory') || '[]');
+
+        // 页面加载时显示历史记录
+        window.onload = function() {
+            displayHistory();
+
+            // 回车键触发转换
+            document.getElementById('urlInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    convertUrl();
+                }
+            });
+        };
+
+        function isUrlHaveProtocol(str) {
+            return str.startsWith('http://') || str.startsWith('https://');
+        }
+
+        function findFirstSlash(str) {
+            let protocolLen = 0;
+
+            if (isUrlHaveProtocol(str)) {
+                protocolLen = str.startsWith('https://') ? 8 : 7;
+            }
+
+            const slashIndex = str.indexOf('/', protocolLen);
+            return slashIndex;
+        }
+
+        function convertUrl() {
+            const input = document.getElementById('urlInput').value.trim();
+
+            if (!input) {
+                alert('请输入网址！');
+                return;
+            }
+
+            const slashPos = findFirstSlash(input);
+
+            let sourceDomain, sourcePath;
+
+            if (slashPos === -1) {
+                sourceDomain = input;
+                sourcePath = '';
+            } else {
+                sourceDomain = input.substring(0, slashPos);
+                sourcePath = input.substring(slashPos);
+            }
+
+            // 移除协议前缀
+            sourceDomain = sourceDomain.replace(/^https?:\/\//, '');
+
+            // 将域名中的点替换为横杠
+            const targetDomain = sourceDomain.replace(/\./g, '-');
+
+            // 生成最终URL
+            const resultUrl = 'https://' + targetDomain + ATRUST_SUFFIX + sourcePath;
+
+            // 显示结果
+            document.getElementById('resultUrl').innerHTML =
+                `<a href="${resultUrl}" target="_blank">${resultUrl}</a>`;
+            document.getElementById('result').classList.add('show');
+
+            // 保存到历史记录
+            saveToHistory(input, resultUrl);
+        }
+
+        function copyToClipboard() {
+            const resultText = document.getElementById('resultUrl').textContent;
+
+            navigator.clipboard.writeText(resultText).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✅ 已复制';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            }).catch(() => {
+                alert('复制失败，请手动复制');
+            });
+        }
+
+        function saveToHistory(original, converted) {
+            const item = {
+                original: original,
+                converted: converted,
+                timestamp: Date.now()
+            };
+
+            // 避免重复
+            history = history.filter(h => h.original !== original);
+            history.unshift(item);
+
+            // 只保留最近10条
+            if (history.length > 10) {
+                history = history.slice(0, 10);
+            }
+
+            localStorage.setItem('urlHistory', JSON.stringify(history));
+            displayHistory();
+        }
+
+        function displayHistory() {
+            if (history.length === 0) {
+                document.getElementById('historySection').style.display = 'none';
+                return;
+            }
+
+            document.getElementById('historySection').style.display = 'block';
+            const historyList = document.getElementById('historyList');
+            historyList.innerHTML = '';
+
+            history.forEach(item => {
+                const li = document.createElement('li');
+                li.className = 'history-item';
+                li.textContent = item.original;
+                li.onclick = function() {
+                    document.getElementById('urlInput').value = item.original;
+                    convertUrl();
+                };
+                historyList.appendChild(li);
+            });
+        }
+    </script>
+</body>
+</html>
