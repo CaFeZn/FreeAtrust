@@ -15,7 +15,7 @@
 
 ### 在线使用
 
-直接访问：[https://你的用户名.github.io/FreeAtrust/](https://你的用户名.github.io/FreeAtrust/)
+直接访问：[https://cafezn.github.io/FreeAtrust/](https://cafezn.github.io/FreeAtrust/)
 
 ### 本地使用
 
@@ -33,7 +33,7 @@
 
 **示例：**
 
-```
+```text
 输入：www.example.com/path/to/page
 输出：https://www-example-com-s.vpn.swpu.edu.cn:8118/path/to/page
 ```
