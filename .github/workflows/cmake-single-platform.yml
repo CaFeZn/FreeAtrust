@@ -33,6 +33,19 @@ jobs:
         name: atrust_SWPU-macos
         # 指定构建产物路径，根据实际情况调整
         path: /Users/runner/work/FreeAtrust/FreeAtrust/build/atrust_SWPU
-        # 设置为 0 表示永久保留（实际上是 90 天，GitHub 的最大限制）
+        # 设置为 90 天（GitHub 的最大限制）
         retention-days: 90
-    
+
+    - name: Create Release
+      if: github.event_name == 'workflow_dispatch'
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        VERSION="v$(date +'%Y.%m.%d-%H%M')"
+        BUILD_TIME="$(date +'%Y-%m-%d %H:%M:%S UTC')"
+
+        gh release create "$VERSION" \
+          /Users/runner/work/FreeAtrust/FreeAtrust/build/atrust_SWPU \
+          --title "macOS Build $VERSION" \
+          --notes "Automated macOS build - Build time: $BUILD_TIME - Commit: ${{ github.sha }} - Download and run: chmod +x atrust_SWPU && ./atrust_SWPU"
+
