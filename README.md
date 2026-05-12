@@ -83,7 +83,7 @@ cmake --build .
 ## 🔗 相关链接
 
 - [西南石油大学网络信息中心](https://www.swpu.edu.cn/nic/)
-- [业务通报](https://www.swpu.edu.cn/nic/xxhyy/ywtb.htm)
+- [一网通办](https://www.swpu.edu.cn/nic/xxhyy/ywtb.htm)
 
 ## ⚠️ 注意事项
 
